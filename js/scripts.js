@@ -154,7 +154,7 @@ $('input[name="npm"]').click(function(){
 
 /*Append a 'cost' div to the end of the 'Register for Activities' list
 
-Show or hide total depending on value of 'cost'*/
+Show or hide div depending on value of 'cost'*/
 
 const $cost = $("<div></div>");
 $(".activities").append($cost);
