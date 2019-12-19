@@ -28,23 +28,24 @@ $( function () {
 
 });
 
-// /*T-Shirt Info Section - hide the color options until a choice is made, and then */
+// /*T-Shirt Info Section - hide the color options until a choice is made, and then only show available colors in that theme */
 
 $("#design option:first").attr("hidden", true); 						//Hide first design theme select option
 
-$("#color option:first").text("Please select a t-shirt theme"); 		//Initialise t-shirt color select menu so you have to chose a design theme
+$("#color option:eq(0)").text("Please select a t-shirt theme"); 		//Initialise t-shirt color select menu so you have to chose a design theme
 
 $("#color").attr("disabled", true); 									//Disable t-shirt color select menu until a design theme is selected
 
-$("#design").change( function (event) {									//Event listener to activate t-shirt color select menu - NEEDS FURTHER WORK ON SELECT MENU
+$("#design").change( function (event) {									//Event listener to activate t-shirt color select menu
 
-	$("#color").attr("disabled", false);
-	$("#color option:eq(0)").html("<p>Cornflower Blue (JS Puns shirt only)</p>");
-	$("#color option:first").text("Please select a t-shirt color"); 
+	$("#color").attr("disabled", false);								//Enables t-short color menu on click event
+
 	
 if ($(event.target).val() === "js puns") {
 	
-	$("#color option:first").html("<p>Cornflower Blue (JS Puns shirt only)</p>");
+	$("#color option:eq(0)").html("<p>Cornflower Blue (JS Puns shirt only)</p>");      //Overwrite :eq(0) with t-shirt rather than placeholder text
+	$("#color option:eq(0)").attr("selected", true);								   //Use 'selected' attributes to get correct t-shirts in placeholder for select menu
+	$("#color option:eq(3)").attr("selected", false);
 	$("#color option:eq(0)").show();
 	$("#color option:eq(1)").show();
 	$("#color option:eq(2)").show();
@@ -56,7 +57,8 @@ if ($(event.target).val() === "js puns") {
 
 else if ($(event.target).val() === "heart js") {
 
-	$("#color option:first").html("<p>Tomato (I &#9829; JS shirt only)</p>");
+	$("#color option:eq(3)").attr("selected", true);
+	$("#color option:eq(0)").attr("selected", false);
 	$("#color option:eq(0)").hide();
 	$("#color option:eq(1)").hide();
 	$("#color option:eq(2)").hide();
@@ -173,5 +175,13 @@ $($cost).html("<p>Total Cost: $" + cost + "</p>");
 
 		($cost).show();
 	}
+
+});
+
+/*Conditionals for payment options*/
+
+$("#payment").change( function (event) {	
+
+if ($(event.target).val() === "select method"||$(event.target).val() === "credit card") {}
 
 });
