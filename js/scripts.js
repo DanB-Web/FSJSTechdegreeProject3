@@ -178,10 +178,39 @@ $($cost).html("<p>Total Cost: $" + cost + "</p>");
 
 });
 
-/*Conditionals for payment options*/
+/*Page initialisation and event handler for payment options*/
 
-$("#payment").change( function (event) {	
+//$("#payment option:first").attr("hidden", true);	//Disable 'Select Payment Method' in drop down menu
 
-if ($(event.target).val() === "select method"||$(event.target).val() === "credit card") {}
+$("#payment option:first").remove();				//Remove 'Select Payment Method' in drop down menu
+
+$(".paypal").hide();								//Hide PayPal and Bitcoin on initial page load
+$(".bitcoin").hide();
+
+$("#payment").change( function (event) {			//Event handler for payment select menu
+
+if ($(event.target).val() === "select method"||$(event.target).val() === "credit card") {
+
+$(".credit-card").show();
+$(".paypal").hide();
+$(".bitcoin").hide();
+
+}
+
+if ($(event.target).val() === "paypal") {
+
+$(".credit-card").hide();
+$(".paypal").show();
+$(".bitcoin").hide();
+
+}
+
+if ($(event.target).val() === "bitcoin") {
+
+$(".credit-card").hide();
+$(".paypal").hide();
+$(".bitcoin").show();
+
+}
 
 });
