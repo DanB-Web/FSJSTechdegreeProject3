@@ -88,6 +88,7 @@ $('input[name="js-frameworks"]').click(function(){
         
         if($(this).prop("checked") == true){
                 $('input[name="express"]').attr("disabled", true);
+           		//$('input[name="express"]').css("color:white");
                 cost = cost + 100; 
             }
         else if($(this).prop("checked") == false){
@@ -250,13 +251,8 @@ $($cvvAlert).html("<strong><p style = 'color:red'>Invalid CVV!</p></strong>");
 $("#cvv").after($cvvAlert);
 $($cvvAlert).hide();
 
-/*Validators
-
-i) Name
-ii) Valid email
-iii) At least 1 x activity
-iv) IF credit card, must be valid
-
+/*
+Validators
 */
 
 $('#name').focusout('input', function() {
