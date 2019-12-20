@@ -214,3 +214,160 @@ $(".bitcoin").show();
 }
 
 });
+
+
+/*
+Alert divs for errors
+*/
+
+const $nameAlert = $("<div></div>");
+$($nameAlert).html("<strong><p style = 'color:red'>Please enter a valid name!</p></strong>");
+$("#name").after($nameAlert);
+$($nameAlert).hide();
+
+const $mailAlert = $("<div></div>");
+$($mailAlert).html("<strong><p style = 'color:red'>Please enter a valid email address!</p></strong>");
+$("#mail").after($mailAlert);
+$($mailAlert).hide();
+
+const $checkAlert = $("<div></div>");
+$($checkAlert).html("<strong><p style = 'color:red'>Please select at least one activity!</p></strong>");
+$(".activities").after($checkAlert);
+$($checkAlert).hide();
+
+const $cardNumberAlert = $("<div></div>");
+$($cardNumberAlert).html("<strong><p style = 'color:red'>Invalid credit card number!</p></strong>");
+$("#cc-num").after($cardNumberAlert);
+$($cardNumberAlert).hide();
+
+const $zipCodeAlert = $("<div></div>");
+$($zipCodeAlert).html("<strong><p style = 'color:red'>Invalid zip code!</p></strong>");
+$("#zip").after($zipCodeAlert);
+$($zipCodeAlert).hide();
+
+const $cvvAlert = $("<div></div>");
+$($cvvAlert).html("<strong><p style = 'color:red'>Invalid CVV!</p></strong>");
+$("#cvv").after($cvvAlert);
+$($cvvAlert).hide();
+
+/*Validators
+
+i) Name
+ii) Valid email
+iii) At least 1 x activity
+iv) IF credit card, must be valid
+
+*/
+
+$('#name').focusout('input', function() {
+
+	const input = $(this);
+	const is_name = input.val();
+	
+	if(is_name)
+		{input.removeClass("invalid")
+		$($nameAlert).hide();
+		}
+
+	else
+		{input.addClass("invalid");
+		$($nameAlert).show();
+		}
+});
+
+$('#mail').focusout('input', function() {
+
+	const input = $(this);
+	const regex = /^[^@]+@[^@.]+\.[a-z]+$/i;
+	const is_email = regex.test(input.val());
+
+	if (is_email)
+		{input.removeClass("invalid");
+		$($mailAlert).hide();
+	}
+
+	else
+		{input.addClass("invalid");
+		$($mailAlert).show();
+	}
+});
+
+$('#cc-num').focusout('input', function() {
+
+	const input = $(this);
+	const regex = /^\d{13,16}$/;
+	const is_ccNum = regex.test(input.val());
+
+	if (is_ccNum)
+		{input.removeClass("invalid");
+		$($cardNumberAlert).hide();
+	}
+
+	else
+		{input.addClass("invalid");
+		$($cardNumberAlert).show();
+	}
+});
+
+$('#zip').focusout('input', function() {
+
+	const input = $(this);
+	const regex = /^\d{5}$/;
+	const is_zip = regex.test(input.val());
+
+	if (is_zip)
+		{input.removeClass("invalid");
+		$($zipCodeAlert).hide();
+	}
+
+	else
+		{input.addClass("invalid");
+		$($zipCodeAlert).show();
+	}
+});
+
+$('#cvv').focusout('input', function() {
+
+	const input = $(this);
+	const regex = /^\d{3}$/;
+	const is_cvv = regex.test(input.val());
+
+	if (is_cvv)
+		{input.removeClass("invalid");
+		$($cvvAlert).hide();
+	}
+
+	else
+		{input.addClass("invalid");
+		$($cvvAlert).show();
+	}
+});		
+
+/*Final Check - Event Listener on register button*/
+
+$("button[type='submit']").click(function (event) {
+
+if ($("#name").hasClass("invalid")
+	||$("#mail").hasClass("invalid")
+	)
+
+	{event.preventDefault();
+	}
+
+if ($('.activities input:checked').length === 0)
+
+	{event.preventDefault();
+	$($checkAlert).show();	
+	}
+
+if ($("#cc-num").hasClass("invalid")
+	||$("#zip").hasClass("invalid")
+	||$("#cvv").hasClass("invalid")
+	)
+
+	{event.preventDefault();
+	}	
+
+});
+
+

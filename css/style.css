@@ -167,6 +167,15 @@ option {
 }
 
 /* ================================= 
+  Red Border for Error Inputs
+==================================== */
+
+input.invalid, 
+textarea.invalid {
+	border: 2px solid red;
+}
+
+/* ================================= 
   Helper Classes
 ==================================== */
 
