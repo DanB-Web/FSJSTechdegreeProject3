@@ -28,9 +28,9 @@ $( function () {
 
 });
 
-/*T-Shirt Info Section - hide the color options until a choice is made, and then only show available colors in that theme 
+/*T-Shirt Info Section - hide the 'Color' options div until a choice is made, and then only show available colors in that theme 
 
-Some code is commented out as it is irrelevant with the exceeds code, which initially hides the 'Color' dropdown
+Some code is commented out as it is irrelevant with the exceeds code, which initially hides the 'Color' div
 
 */
 
@@ -40,33 +40,37 @@ $("#design option:first").attr("hidden", true); 						//Hide first design theme 
 
 //$("#color").attr("disabled", true); 									//Disable t-shirt color select menu until a design theme is selected
 
-//EXCEEDS - Hide "Color" dropdown until "Design" option selected
+/*EXCEEDS - Hide "Color" dropdown until "Design" option selected*/
 
-$("#color").attr("hidden", true);
+$("#colors-js-puns").attr("hidden", true);
 
 $("#design").change( function () {
 
 if ( $("#design option[value = 'heart js']").attr("selected", true) ) {
 
-	$("#color").attr("hidden", false);
+	$("#colors-js-puns").attr("hidden", false);
 	}
 
 else if ($("#design option[value = 'js puns']").attr("selected", true) ) {
 
-	$("#color").attr("hidden", false);
+	$("#colors-js-puns").attr("hidden", false);
 	}
 
 else 	{
-	$("#color").attr("hidden", true);
+	$("#colors-js-puns").attr("hidden", true);
 	}
 
 });
 
-//Event listener to activate t-shirt color select menu
+/*Event listener to activate t-shirt color select menu
+
+The options displayed in the 'Color' menu depend on the 'Design' theme picked
+
+*/
 
 $("#design").change( function (event) {							
 
-	$("#color").attr("disabled", false);								//Enables t-shirt color menu on click event
+	//$("#color").attr("disabled", false);								//Enables t-shirt color menu on click event
 
 
 if ($(event.target).val() === "js puns") {
@@ -98,11 +102,15 @@ else if ($(event.target).val() === "heart js") {
 });
 
 
-/*Conditionals for conflicting activies and cost tracking*/
+/*Conditionals for conflicting activies and cost tracking
+
+A 'cost' variable is used to store any accumulated activity costs
+
+If conflicting activities are chosen, unavailable checkboxes are disabled and the related label faded out using a CSS class
+
+*/
 
 let cost = 0; 
-
-//$("input[disabled = 'true']").parent().text("text-decoration", "line-through");
 
 $('input[name="all"]').click(function(){
         
@@ -118,13 +126,12 @@ $('input[name="js-frameworks"]').click(function(){
         
         if($(this).prop("checked") == true){
                 $('input[name="express"]').attr("disabled", true);
-           		//$('input[name="express"]').parent().text().css("text-decoration", "line-through");
-           		$('input[name="express"]').addClass("clash");
+           		$('input[name="express"]').parent().addClass("clash");
                 cost = cost + 100; 
             }
         else if($(this).prop("checked") == false){
                 $('input[name="express"]').attr("disabled", false);
-                $('input[name="express"]').removeClass("clash");
+                $('input[name="express"]').parent().removeClass("clash");
                 cost = cost - 100;
             }
         });
@@ -133,10 +140,12 @@ $('input[name="js-frameworks"]').click(function(){
 
         if($(this).prop("checked") == true){
                 $('input[name="js-frameworks"]').attr("disabled", true);
+                $('input[name="js-frameworks"]').parent().addClass("clash");
                 cost = cost + 100; 
             }
         else if($(this).prop("checked") == false){
                 $('input[name="js-frameworks"]').attr("disabled", false);
+                $('input[name="js-frameworks"]').parent().removeClass("clash");
                 cost = cost - 100;
             }
         });
@@ -145,10 +154,12 @@ $('input[name="js-libs"]').click(function(){
         
         if($(this).prop("checked") == true){
                 $('input[name="node"]').attr("disabled", true);
+                $('input[name="node"]').parent().addClass("clash");
                 cost = cost + 100; 
             }
         else if($(this).prop("checked") == false){
                 $('input[name="node"]').attr("disabled", false);
+                $('input[name="node"]').parent().removeClass("clash");
                 cost = cost - 100;
             }
         });
@@ -157,10 +168,12 @@ $('input[name="node"]').click(function(){
         
         if($(this).prop("checked") == true){
                 $('input[name="js-libs"]').attr("disabled", true);
+                $('input[name="js-libs"]').parent().addClass("clash");
                 cost = cost + 100; 
             }
         else if($(this).prop("checked") == false){
                 $('input[name="js-libs"]').attr("disabled", false);
+                $('input[name="js-libs"]').parent().removeClass("clash");
                 cost = cost - 100;
             }
         });
@@ -187,9 +200,9 @@ $('input[name="npm"]').click(function(){
 
 
 
-/*Append a 'cost' div to the end of the 'Register for Activities' list
+/*Append a div to the end of the 'Register for Activities' list
 
-Show or hide div depending on value of 'cost'*/
+Show or hide div depending on value of 'cost' variable*/
 
 const $cost = $("<div></div>");
 $(".activities").append($cost);
@@ -211,7 +224,11 @@ $($cost).html("<p>Total Cost: $" + cost + "</p>");
 
 });
 
-/*Page initialisation and event handler for payment options*/
+/*Page initialisation and event handler for payment options
+
+Unclear from brief if they wanted first option hidden or removed, so have both with one commented out.
+
+*/
 
 //$("#payment option:first").attr("hidden", true);	//Disable 'Select Payment Method' in drop down menu
 
@@ -251,6 +268,9 @@ $(".bitcoin").show();
 
 /*
 Alert divs for errors
+
+'alert' class removes some top margin using CSS to move alerts closer to related input field
+
 */
 
 const $nameAlert = $("<div class = 'alert'></div>");
@@ -292,6 +312,8 @@ $($cvvAlert).hide();
 Validators
 */
 
+/*Name validator*/
+
 $('#name').focusout('input', function() {
 
 	const input = $(this);
@@ -313,7 +335,7 @@ $('#name').focusout('input', function() {
 
 Regex expression for simple emails: /^[^@]+@[^@.]+\.[a-z]+$/i;
 
-Others available from: https://emailregex.com/
+Other more complex regex's available from: https://emailregex.com/
 
 */
 
@@ -333,6 +355,12 @@ $('#mail').on('input', function() {
 		$($mailAlert).show();
 	}
 });
+
+/*Credit card number has conditional validation
+
+Error message depends on wether the field is empty or not the correct range of numbers (13 - 16)
+
+*/
 
 $('#cc-num').focusout('input', function() {
 
@@ -360,6 +388,8 @@ $('#cc-num').focusout('input', function() {
 	}
 });
 
+/*Zip code validator*/
+
 $('#zip').focusout('input', function() {
 
 	const input = $(this);
@@ -376,6 +406,8 @@ $('#zip').focusout('input', function() {
 		$($zipCodeAlert).show();
 	}
 });
+
+/*CVV validator*/
 
 $('#cvv').focusout('input', function() {
 
@@ -394,7 +426,15 @@ $('#cvv').focusout('input', function() {
 	}
 });		
 
-/*Final Check - Event Listener on register button*/
+/*Final Submission Check - Event Listener on register button
+
+Will prevent form submission using prevent.default() if the relevant conditions aren't met
+
+1) Name or mail field cannot have 'invalid' class
+2) Mail field must have content (Note the name field will automatically switch to 'invalid if tabbed away from on page load')
+3) Must be at least one activity selected
+4) IF credit card selected as payment method, must have no 'invalid' class applied or empty fields
+*/
 
 $("button[type='submit']").click(function (event) {
 
@@ -405,19 +445,49 @@ if ($("#name").hasClass("invalid")
 	{event.preventDefault();
 	}
 
+if ($("#mail").val() === "")
+
+	{
+	event.preventDefault();
+	$("#mail").addClass("invalid");
+	$($mailAlert).show();
+	}
+
 if ($('.activities input:checked').length === 0)
 
 	{event.preventDefault();
 	$($checkAlert).show();	
 	}
 
-if ($("#cc-num").hasClass("invalid")
-	||$("#zip").hasClass("invalid")
-	||$("#cvv").hasClass("invalid")
-	)
+if ($("option[value = 'credit card']").is(":selected")) {
 
-	{event.preventDefault();
-	}	
+		if ($("#cc-num").hasClass("invalid")
+			||$("#zip").hasClass("invalid")
+			||$("#cvv").hasClass("invalid")
+			)
+
+			{event.preventDefault();
+			}
+
+		if ($("#cc-num").val() === "")
+
+			{event.preventDefault();
+			$($cardNumberAlert2).show();
+			} 	
+
+		if	($("#zip").val() === "") {
+
+			event.preventDefault();
+			$($zipCodeAlert).show();
+			}
+
+		if ($("#cvv").val() === "") {
+
+			event.preventDefault();
+			$($cvvAlert).show();
+			}
+
+	}
 
 });
 

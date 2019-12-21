@@ -167,18 +167,25 @@ option {
 }
 
 /* ================================= 
-  Red Border for Error Inputs
+  Extra CSS for Form Project
 ==================================== */
+
+/*Red borders for invalid inputs*/
 
 input.invalid, 
 textarea.invalid {
+
 	border: 2px solid red;
 }
 
-label.parent.text.clash {
+/*Fade out unavaiable activities*/
 
-	text-decoration: line-through;	
+label.clash {
+	
+	opacity: 0.4;
 }
+
+/*Reduce top margin on alert divs*/
 
 .alert {
 
