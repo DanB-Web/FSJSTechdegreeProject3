@@ -175,6 +175,16 @@ textarea.invalid {
 	border: 2px solid red;
 }
 
+label.parent.text.clash {
+
+	text-decoration: line-through;	
+}
+
+.alert {
+
+	margin-top: 2px;
+}
+
 /* ================================= 
   Helper Classes
 ==================================== */

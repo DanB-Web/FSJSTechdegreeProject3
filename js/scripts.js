@@ -28,19 +28,47 @@ $( function () {
 
 });
 
-// /*T-Shirt Info Section - hide the color options until a choice is made, and then only show available colors in that theme */
+/*T-Shirt Info Section - hide the color options until a choice is made, and then only show available colors in that theme 
+
+Some code is commented out as it is irrelevant with the exceeds code, which initially hides the 'Color' dropdown
+
+*/
 
 $("#design option:first").attr("hidden", true); 						//Hide first design theme select option
 
-$("#color option:eq(0)").text("Please select a t-shirt theme"); 		//Initialise t-shirt color select menu so you have to chose a design theme
+//$("#color option:eq(0)").text("Please select a t-shirt theme"); 		//Initialise t-shirt color select menu so you have to chose a design theme
 
-$("#color").attr("disabled", true); 									//Disable t-shirt color select menu until a design theme is selected
+//$("#color").attr("disabled", true); 									//Disable t-shirt color select menu until a design theme is selected
 
-$("#design").change( function (event) {									//Event listener to activate t-shirt color select menu
+//EXCEEDS - Hide "Color" dropdown until "Design" option selected
 
-	$("#color").attr("disabled", false);								//Enables t-short color menu on click event
+$("#color").attr("hidden", true);
 
-	
+$("#design").change( function () {
+
+if ( $("#design option[value = 'heart js']").attr("selected", true) ) {
+
+	$("#color").attr("hidden", false);
+	}
+
+else if ($("#design option[value = 'js puns']").attr("selected", true) ) {
+
+	$("#color").attr("hidden", false);
+	}
+
+else 	{
+	$("#color").attr("hidden", true);
+	}
+
+});
+
+//Event listener to activate t-shirt color select menu
+
+$("#design").change( function (event) {							
+
+	$("#color").attr("disabled", false);								//Enables t-shirt color menu on click event
+
+
 if ($(event.target).val() === "js puns") {
 	
 	$("#color option:eq(0)").html("<p>Cornflower Blue (JS Puns shirt only)</p>");      //Overwrite :eq(0) with t-shirt rather than placeholder text
@@ -74,6 +102,8 @@ else if ($(event.target).val() === "heart js") {
 
 let cost = 0; 
 
+//$("input[disabled = 'true']").parent().text("text-decoration", "line-through");
+
 $('input[name="all"]').click(function(){
         
         if($(this).prop("checked") == true){
@@ -88,11 +118,13 @@ $('input[name="js-frameworks"]').click(function(){
         
         if($(this).prop("checked") == true){
                 $('input[name="express"]').attr("disabled", true);
-           		//$('input[name="express"]').css("color:white");
+           		//$('input[name="express"]').parent().text().css("text-decoration", "line-through");
+           		$('input[name="express"]').addClass("clash");
                 cost = cost + 100; 
             }
         else if($(this).prop("checked") == false){
                 $('input[name="express"]').attr("disabled", false);
+                $('input[name="express"]').removeClass("clash");
                 cost = cost - 100;
             }
         });
@@ -221,33 +253,38 @@ $(".bitcoin").show();
 Alert divs for errors
 */
 
-const $nameAlert = $("<div></div>");
-$($nameAlert).html("<strong><p style = 'color:red'>Please enter a valid name!</p></strong>");
+const $nameAlert = $("<div class = 'alert'></div>");
+$($nameAlert).html("<strong><p class = 'alert' style = 'color:red'>Please enter a valid name!</p></strong>");
 $("#name").after($nameAlert);
 $($nameAlert).hide();
 
-const $mailAlert = $("<div></div>");
-$($mailAlert).html("<strong><p style = 'color:red'>Please enter a valid email address!</p></strong>");
+const $mailAlert = $("<div class = 'alert'></div>");
+$($mailAlert).html("<strong><p class = 'alert' style = 'color:red'>Please enter a valid email address: name@domainName.domain!</p></strong>");
 $("#mail").after($mailAlert);
 $($mailAlert).hide();
 
-const $checkAlert = $("<div></div>");
-$($checkAlert).html("<strong><p style = 'color:red'>Please select at least one activity!</p></strong>");
+const $checkAlert = $("<div class = 'alert'></div>");
+$($checkAlert).html("<strong><p class = 'alert' style = 'color:red'>Please select at least one activity!</p></strong>");
 $(".activities").after($checkAlert);
 $($checkAlert).hide();
 
-const $cardNumberAlert = $("<div></div>");
-$($cardNumberAlert).html("<strong><p style = 'color:red'>Invalid credit card number!</p></strong>");
+const $cardNumberAlert = $("<div class = 'alert'></div>");
+$($cardNumberAlert).html("<strong><p class = 'alert' style = 'color:red'>Invalid credit card number!</p></strong>");
 $("#cc-num").after($cardNumberAlert);
 $($cardNumberAlert).hide();
 
-const $zipCodeAlert = $("<div></div>");
-$($zipCodeAlert).html("<strong><p style = 'color:red'>Invalid zip code!</p></strong>");
+const $cardNumberAlert2 = $("<div class = 'alert'></div>");
+$($cardNumberAlert2).html("<strong><p class = 'alert' style = 'color:red'>Empty credit card number!</p></strong>");
+$("#cc-num").after($cardNumberAlert2);
+$($cardNumberAlert2).hide();
+
+const $zipCodeAlert = $("<div class = 'alert'></div>");
+$($zipCodeAlert).html("<strong><p class = 'alert' style = 'color:red'>Invalid zip code!</p></strong>");
 $("#zip").after($zipCodeAlert);
 $($zipCodeAlert).hide();
 
-const $cvvAlert = $("<div></div>");
-$($cvvAlert).html("<strong><p style = 'color:red'>Invalid CVV!</p></strong>");
+const $cvvAlert = $("<div class = 'alert'></div>");
+$($cvvAlert).html("<strong><p class = 'alert' style = 'color:red'>Invalid CVV!</p></strong>");
 $("#cvv").after($cvvAlert);
 $($cvvAlert).hide();
 
@@ -271,7 +308,16 @@ $('#name').focusout('input', function() {
 		}
 });
 
-$('#mail').focusout('input', function() {
+
+/*Email has real time validation
+
+Regex expression for simple emails: /^[^@]+@[^@.]+\.[a-z]+$/i;
+
+Others available from: https://emailregex.com/
+
+*/
+
+$('#mail').on('input', function() {
 
 	const input = $(this);
 	const regex = /^[^@]+@[^@.]+\.[a-z]+$/i;
@@ -297,11 +343,20 @@ $('#cc-num').focusout('input', function() {
 	if (is_ccNum)
 		{input.removeClass("invalid");
 		$($cardNumberAlert).hide();
+		$($cardNumberAlert2).hide()
+	}
+
+	else if (input.val() === "") {
+
+		input.addClass("invalid");
+		$($cardNumberAlert2).show();
+		$($cardNumberAlert).hide();
 	}
 
 	else
 		{input.addClass("invalid");
 		$($cardNumberAlert).show();
+		$($cardNumberAlert2).hide();
 	}
 });
 
